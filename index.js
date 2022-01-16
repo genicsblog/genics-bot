@@ -22,8 +22,14 @@ client.on('ready', () => {
     }
 
     commands.create({
-        name: 'mel',
-        description: 'Mel command',
+        name: 'send',
+        description: 'Send command',
+        options: [{
+            type: 'STRING',
+            name: 'id',
+            description: 'id of the person to send to',
+            required: true
+        }],
     })
 })
 
@@ -31,9 +37,9 @@ client.on('interactionCreate', interaction => {
     if (!interaction.isCommand()) return
 
     const { commandName } = interaction;
-    if (commandName === 'mel') {
+    if (commandName === 'send') {
         interaction.reply({
-            content: "Should this be mail instead of mel?"
+            content: "Sending..."
         })
     }
 })
