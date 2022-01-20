@@ -1,21 +1,34 @@
 {
   "name": "genics-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Source code of discord bot for genicsblog.com",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "dev": "nodemon",
+    "deploy": "npm init -y && npm i --save-dev node@16 && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH && node deploy.js",
+    "dev": "nodemon index.js",
     "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/builders": "^0.11.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "discord-api-types": "^0.26.1",
     "discord.js": "^13.6.0",
-    "dotenv": "^12.0.3"
+    "dotenv": "^12.0.3",
+    "nodemailer": "^6.7.2"
   },
   "devDependencies": {
+    "node": "^16.13.2",
     "nodemon": "^2.0.15"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/genicsblog/genics-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/genicsblog/genics-bot/issues"
+  },
+  "homepage": "https://github.com/genicsblog/genics-bot#readme"
 }
