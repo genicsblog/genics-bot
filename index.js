@@ -18,7 +18,7 @@ for (const file of commandFiles) {
 client.on('ready', () => {
     console.log(`${client.user.tag} is ready!`)
     
-    cron.schedule('10 2 * * *', () => {
+    cron.schedule('0 16 * * *', () => {
       pendingReview(client)
     }, {
       timezone: "America/Los_Angeles"
