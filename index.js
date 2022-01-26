@@ -1,5 +1,7 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
+const cron = require('node-cron');
+const pendingReview = require('./util/pending-review')
 
 const client = new Client({ 
   intents: [Intents.FLAGS.GUILDS] 
@@ -15,6 +17,12 @@ for (const file of commandFiles) {
 
 client.on('ready', () => {
     console.log(`${client.user.tag} is ready!`)
+    
+    cron.schedule('10 2 * * *', () => {
+      pendingReview(client)
+    }, {
+      timezone: "America/Los_Angeles"
+    });
 })
 
 client.on('interactionCreate', async interaction => {
