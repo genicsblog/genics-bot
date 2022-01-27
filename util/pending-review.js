@@ -42,7 +42,10 @@ async function getNewFiles() {
 }
 
 function sendMessage(newFiles, client) {
-  if (newFiles.length == 0) return
+  if (newFiles.length == 0) {
+    client.channels.cache.get("935837221901180998").send("No articles to review :D")
+    return
+  }
 
   var message = "<@&935778876448190574> Here are some new articles to review!\n\n"
 
