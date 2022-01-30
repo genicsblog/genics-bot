@@ -21,7 +21,7 @@ async function getNewFiles() {
   for(let i = 0; i < response.data.length; i++) {
     const file = response.data[i]
 
-    if (data[file.name.replace(".md", "")] === true) continue
+    if (data["drafts"].includes(file.name.replace(".md", ""))) continue
 
     let resp = await axios.get(
       `https://api.github.com/repos/genicsblog/genicsblog.github.io/contents/${file.path}`
@@ -51,7 +51,7 @@ function sendMessage(newFiles, client) {
 
   newFiles.forEach(fileName => {
     message += `- <https://genicsblog.com/draft/${fileName}> \n`
-    data[fileName] = true
+    data["drafts"].push(fileName)
   })
 
   client.channels.cache.get("935837221901180998").send(message)
@@ -60,9 +60,7 @@ function sendMessage(newFiles, client) {
 
   fs.writeFile('./util/data.json', jsonString, err => {
     if (err) {
-      console.log('Error writing file', err)
-    } else {
-      console.log('Successfully wrote file')
+      console.log('Error writing file for pending reviews command', err)
     }
   })
 }
