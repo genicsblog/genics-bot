@@ -20,7 +20,7 @@ client.on('ready', () => {
     console.log(`${client.user.tag} is ready!`)
     
     cron.schedule('0 16 * * *', () => {
-      pendingReview(client)
+      pendingReview(client, false)
     }, {
       timezone: "America/Los_Angeles"
     });

@@ -11,14 +11,14 @@ async function getNewFiles() {
     }
     data = JSON.parse(jsonString)
   })
-  
+
   let response = await axios.get(
     "https://api.github.com/repos/genicsblog/genicsblog.github.io/contents/_drafts"
   )
 
   const newFiles = []
 
-  for(let i = 0; i < response.data.length; i++) {
+  for (let i = 0; i < response.data.length; i++) {
     const file = response.data[i]
 
     if (data["drafts"].includes(file.name.replace(".md", ""))) continue
@@ -27,7 +27,7 @@ async function getNewFiles() {
       `https://api.github.com/repos/genicsblog/genicsblog.github.io/contents/${file.path}`
     )
 
-    if(resp.data.name != "test.md") {
+    if (resp.data.name != "test.md") {
       const content = Buffer.from(resp.data.content, 'base64').toString()
       const attributes = fm(content).attributes
 
@@ -41,9 +41,9 @@ async function getNewFiles() {
   return newFiles
 }
 
-function sendMessage(newFiles, client) {
+function sendMessage(newFiles, client, notify) {
   if (newFiles.length == 0) {
-    client.channels.cache.get("935837221901180998").send("No articles to review :D")
+    if (notify) client.channels.cache.get("935837221901180998").send("No articles to review :D")
     return
   }
 
@@ -65,7 +65,7 @@ function sendMessage(newFiles, client) {
   })
 }
 
-module.exports = async (client) => {
+module.exports = async (client, notify) => {
   const files = await getNewFiles()
-  sendMessage(files, client)
+  sendMessage(files, client, notify)
 }

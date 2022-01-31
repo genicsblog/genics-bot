@@ -29,10 +29,8 @@ module.exports = {
         interaction.guild.iconURL({ size: 1024, dynamic: true })
       );
     }
-    else if(interaction.options.getSubcommand() === 'get-review-articles') {
-      pendingReview(client)
+    else if (interaction.options.getSubcommand() === 'get-review-articles') {
+      pendingReview(client, true)
     }
-
-
   },
 };
