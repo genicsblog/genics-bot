@@ -50,7 +50,7 @@ function sendMessage(newFiles, client, notify) {
   var message = "<@&935778876448190574> Here are some new articles to review!\n\n"
 
   newFiles.forEach(fileName => {
-    message += `- <https://genicsblog.com/draft/${fileName}> \n`
+    message += `- https://genicsblog.com/draft/${fileName}\n`
     data["drafts"].push(fileName)
   })
 
