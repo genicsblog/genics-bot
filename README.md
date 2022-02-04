@@ -21,6 +21,8 @@ Make `.env` file:
 
 ```
 BOT_TOKEN="bot_token_here"
+CLIENT_ID="client_id_here"
+GUILD_ID="server_id_here"
 ```
 
 Run dev script:
