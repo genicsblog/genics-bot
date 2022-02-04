@@ -13,7 +13,7 @@ async function getNewFiles() {
   })
 
   let response = await axios.get(
-    "https://api.github.com/repos/genicsblog/genicsblog.github.io/contents/_drafts"
+    "https://api.github.com/repos/genicsblog/genicsblog.com/contents/_drafts"
   )
 
   const newFiles = []
@@ -24,7 +24,7 @@ async function getNewFiles() {
     if (data["drafts"].includes(file.name.replace(".md", ""))) continue
 
     let resp = await axios.get(
-      `https://api.github.com/repos/genicsblog/genicsblog.github.io/contents/${file.path}`
+      `https://api.github.com/repos/genicsblog/genicsblog.com/contents/${file.path}`
     )
 
     if (resp.data.name != "test.md") {
