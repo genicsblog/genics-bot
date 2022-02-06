@@ -3,9 +3,10 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const cron = require('node-cron');
 const pendingReview = require('./util/pending-review')
+const logAnalytics = require('./util/log-analytics')
 
-const client = new Client({ 
-  intents: [Intents.FLAGS.GUILDS] 
+const client = new Client({
+	intents: [Intents.FLAGS.GUILDS]
 });
 
 client.commands = new Collection();
@@ -17,13 +18,19 @@ for (const file of commandFiles) {
 }
 
 client.on('ready', () => {
-    console.log(`${client.user.tag} is ready!`)
-    
-    cron.schedule('0 16 * * *', () => {
-      pendingReview(client, false)
-    }, {
-      timezone: "America/Los_Angeles"
-    });
+	console.log(`${client.user.tag} is ready!`)
+
+	cron.schedule('0 16 * * *', () => {
+		pendingReview(client, false)
+	}, {
+		timezone: "America/Los_Angeles"
+	});
+
+	cron.schedule('5 0 * * *', () => {
+		logAnalytics(client)
+	}, {
+		timezone: "Asia/Colombo"
+	});
 })
 
 client.on('interactionCreate', async interaction => {
@@ -34,7 +41,7 @@ client.on('interactionCreate', async interaction => {
 	if (!command) return;
 
 	try {
-    if (interaction.commandName == "server") await command.execute(interaction, client);
+		if (interaction.commandName == "server") await command.execute(interaction, client);
 		else await command.execute(interaction);
 	} catch (error) {
 		console.error(error);

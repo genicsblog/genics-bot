@@ -66,6 +66,8 @@ function sendMessage(newFiles, client, notify) {
 }
 
 module.exports = async (client, notify) => {
+  client.channels.cache.get(process.env.TESTING_CHANNEL_ID).send("Retreiving drafts that are pending review...")
+
   const files = await getNewFiles()
   sendMessage(files, client, notify)
 }
