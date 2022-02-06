@@ -20,18 +20,17 @@ async function getData(dateString) {
 module.exports = async (client) => {
     client.channels.cache.get(process.env.TESTING_CHANNEL_ID).send("Time to log analytics data...")
 
-    const authorizeJWT = await jwt.authorize()
-    const data = await getData(dateString)
+    let date = new Date();
+    const dateString = date.toISOString().split('T')[0] // YYYY-MM-DD format
 
-    let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const dateString = yesterday.toISOString().split('T')[0]
-
-    const prettyDate = yesterday.toLocaleDateString("en-US", {
+    const prettyDate = date.toLocaleDateString("en-US", {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
     })
+
+    const authorizeJWT = await jwt.authorize()
+    const data = await getData(dateString)
 
     const message = `
 Hey genics community! Here are the blog's stats for **${prettyDate}**:
