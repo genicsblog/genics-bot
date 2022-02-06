@@ -27,7 +27,7 @@ module.exports = async (client) => {
     yesterday.setDate(yesterday.getDate() - 1);
     const dateString = yesterday.toISOString().split('T')[0]
 
-    const prettyDate = yesterday.toLocaleDateString("en-US", { 
+    const prettyDate = yesterday.toLocaleDateString("en-US", {
         year: 'numeric',
         month: 'short',
         day: 'numeric'

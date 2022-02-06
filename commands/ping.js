@@ -7,8 +7,8 @@ module.exports = {
 
 	async execute(interaction) {
 		await interaction.reply('Pong!');
-    await interaction.editReply(
-      `:ping_pong: Latency is ${Math.abs(Date.now() - interaction.createdTimestamp)}ms.`
-    );
+		await interaction.editReply(
+			`:ping_pong: Latency is ${Math.abs(Date.now() - interaction.createdTimestamp)}ms.`
+		);
 	},
 };
