@@ -8,18 +8,18 @@ module.exports = {
 		.setDescription('Sends a random motivational quote.'),
 
 	async execute(interaction, client) {
-        const { data } = await axios.get('https://zenquotes.io/api/random')
-        const {q: quote, a: author} = data[0]
-        const embed = {
-            color: randomColor(),
-            title: author,
-            description: quote,
-            footer: {
-                text: 'From zenquotes.io'
-            },
-            timestamp: new Date()
-        }
+		const { data } = await axios.get('https://zenquotes.io/api/random')
+		const { q: quote, a: author } = data[0]
+		const embed = {
+			color: randomColor(),
+			title: author,
+			description: quote,
+			footer: {
+				text: 'From zenquotes.io'
+			},
+			timestamp: new Date()
+		}
 
-		await interaction.reply({ embeds: [ embed ] });
+		await interaction.reply({ embeds: [embed] });
 	},
 }
