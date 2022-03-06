@@ -3,7 +3,7 @@ const { google } = require('googleapis')
 const prettySeconds = require('pretty-seconds')
 const scopes = 'https://www.googleapis.com/auth/analytics.readonly'
 
-const jwt = new google.auth.JWT(process.env.GOOGLE_ANALYTICS_CLIENT_EMAIL, null, process.env.GOOGLE_ANALYTICS_PRIVATE_KEY, scopes)
+const jwt = new google.auth.JWT(process.env.GOOGLE_ANALYTICS_CLIENT_EMAIL, null, process.env.GOOGLE_ANALYTICS_PRIVATE_KEY.replace(/\\n/g, '\n'), scopes)
 
 async function getData(dateString) {
     const result = await google.analytics('v3').data.ga.get({
@@ -20,7 +20,7 @@ async function getData(dateString) {
 module.exports = async (client) => {
     client.channels.cache.get(process.env.TESTING_CHANNEL_ID).send("Time to log analytics data...")
 
-    let date = new Date();
+    let date = new Date()
     const dateString = date.toISOString().split('T')[0] // YYYY-MM-DD format
 
     const prettyDate = date.toLocaleDateString("en-US", {

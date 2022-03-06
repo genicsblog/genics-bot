@@ -1,10 +1,10 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('@discordjs/builders')
 const pendingReview = require('../util/pending-review')
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('server')
-    .setDescription('Replies with server info!')
+    .setDescription('Replies with the server info')
     .addSubcommand(subcommand =>
       subcommand
         .setName('info')
@@ -22,15 +22,15 @@ module.exports = {
     if (interaction.options.getSubcommand() === 'info') {
       await interaction.reply(
         `Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`
-      );
+      )
     }
     else if (interaction.options.getSubcommand() === 'icon') {
       await interaction.reply(
         interaction.guild.iconURL({ size: 1024, dynamic: true })
-      );
+      )
     }
     else if (interaction.options.getSubcommand() === 'get-review-articles') {
       pendingReview(client, true)
     }
   },
-};
+}

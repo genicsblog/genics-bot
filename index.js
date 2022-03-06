@@ -6,7 +6,7 @@ const pendingReview = require('./util/pending-review')
 const logAnalytics = require('./util/log-analytics')
 
 const client = new Client({
-	intents: [Intents.FLAGS.GUILDS]
+	intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]
 });
 
 client.commands = new Collection();
@@ -19,6 +19,8 @@ for (const file of commandFiles) {
 
 client.on('ready', () => {
 	console.log(`${client.user.tag} is ready!`)
+	client.channels.cache.get(process.env.TESTING_CHANNEL_ID).send(`${client.user.tag} is ready!`)
+	client.user.setActivity("discord.genicsblog.com")
 
 	cron.schedule('0 16 * * *', () => {
 		pendingReview(client, false)
@@ -41,12 +43,23 @@ client.on('interactionCreate', async interaction => {
 	if (!command) return;
 
 	try {
-		if (interaction.commandName == "server") await command.execute(interaction, client);
-		else await command.execute(interaction);
+		await command.execute(interaction, client)
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 	}
 });
+
+client.on('guildMemberAdd', member => {
+	setTimeout(() => {
+		client.channels.cache.get(process.env.WELCOME_CHANNEL_ID).messages.fetch({ limit: 1 }).then(messages => {
+			let message = messages.first()
+			message.react('🎉')
+			client.channels.cache.get(process.env.WELCOME_CHANNEL_ID).send(
+				`Welcome to Genics Blog's Community <@${member.id}>! Please go through <#920200530700169276> to get full access to the server and do introduce yourself in <#912221055244963860> :)`
+			)
+		}).catch(console.error)
+	}, 500)
+})
 
 client.login(process.env.BOT_TOKEN)
