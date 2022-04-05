@@ -1,12 +1,13 @@
 require('dotenv').config()
 const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
 const cron = require('node-cron');
 const pendingReview = require('./util/pending-review')
 const logAnalytics = require('./util/log-analytics')
 
 const client = new Client({
-	intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]
+	intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS],
+	partials: ['MESSAGE']
 });
 
 client.commands = new Collection();
@@ -47,6 +48,46 @@ client.on('interactionCreate', async interaction => {
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
+});
+
+client.on('messageDelete', async (message) => {
+	if (
+		message.author === undefined || 
+		message.author === null || 
+		message.author.bot === true
+	) return;
+
+	const embed = new MessageEmbed()
+		.setTitle('Message Deleted')
+		.setColor(randomColor())
+		.setDescription(`Message by <@${message.author.id}> deleted in <#${message.channel.id}>`)
+		.setTimestamp()
+
+	if (message.partial) {
+		message.fetch()
+			.then(fullMessage => {
+				let content = (fullMessage.content == '') ? "No content" : fullMessage.content
+				content += "\n\n"
+				fullMessage.attachments.forEach(attachment => {
+					content += attachment.url + "\n"
+				});
+				embed.addField('Content', content)
+				client.channels.cache.get(process.env.TESTING_CHANNEL_ID).send({ embeds: [embed] })
+			})
+			.catch(error => {
+				client.channels.cache.get(process.env.TESTING_CHANNEL_ID).send(
+					`Something went wrong when fetching the message: ${error}`
+				)
+			});
+	} else {
+		let content = (message.content == '') ? "No content" : message.content
+		content += "\n\n"
+		message.attachments.forEach(attachment => {
+			content += attachment.url + "\n"
+		});
+		embed.addField('Content', content)
+		client.channels.cache.get(process.env.TESTING_CHANNEL_ID).send({ embeds: [embed] })
 	}
 });
 
