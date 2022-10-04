@@ -16,7 +16,10 @@ module.exports = {
 		.addSubcommand(subcommand =>
 			subcommand
 				.setName('get-review-articles')
-				.setDescription('Gets a list of articles that need review from @Reviewer')),
+				.setDescription(
+					'Gets a list of articles that need review from @Reviewer'
+				)
+		),
 
 	async execute(interaction, client) {
 		if (interaction.options.getSubcommand() === 'info') {
@@ -32,5 +35,5 @@ module.exports = {
 		else if (interaction.options.getSubcommand() === 'get-review-articles') {
 			pendingReview(client, true)
 		}
-	},
+	}
 }

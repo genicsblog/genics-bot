@@ -24,6 +24,5 @@ module.exports = {
 				interaction.user.displayAvatarURL({ size: 1024, dynamic: true })
 			)
 		}
-	},
-
+	}
 }
