@@ -6,13 +6,11 @@ module.exports = {
 		.setName('server')
 		.setDescription('Replies with the server info')
 		.addSubcommand(subcommand =>
-			subcommand
-				.setName('info')
-				.setDescription('info about server'))
+			subcommand.setName('info').setDescription('info about server')
+		)
 		.addSubcommand(subcommand =>
-			subcommand
-				.setName('icon')
-				.setDescription('icon of server'))
+			subcommand.setName('icon').setDescription('icon of server')
+		)
 		.addSubcommand(subcommand =>
 			subcommand
 				.setName('get-review-articles')
@@ -26,13 +24,11 @@ module.exports = {
 			await interaction.reply(
 				`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`
 			)
-		}
-		else if (interaction.options.getSubcommand() === 'icon') {
+		} else if (interaction.options.getSubcommand() === 'icon') {
 			await interaction.reply(
 				interaction.guild.iconURL({ size: 1024, dynamic: true })
 			)
-		}
-		else if (interaction.options.getSubcommand() === 'get-review-articles') {
+		} else if (interaction.options.getSubcommand() === 'get-review-articles') {
 			pendingReview(client, true)
 		}
 	}
